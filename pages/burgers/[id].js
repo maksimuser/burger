@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Burger from '../../components/Burger';
 
 export async function getStaticPaths() {
-  const res = await fetch('http://localhost:5000/burgers');
+  const res = await fetch(`${process.env.API_HOST}/burgers`);
 
   const data = await res.json();
   const paths = data.map(el => {
@@ -17,7 +17,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps(ctx) {
   const { id } = ctx?.params;
-  const res = await fetch(`http://localhost:5000/burgers/${id}`);
+  const res = await fetch(`${process.env.API_HOST}/burgers/${id}`);
   const data = await res.json();
 
   if (!data) {
