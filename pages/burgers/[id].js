@@ -2,31 +2,39 @@ import Head from 'next/head';
 import Burger from '../../components/Burger';
 
 export async function getStaticPaths() {
-  const res = await fetch('http://localhost:5000/burgers');
+  try {
+    const res = await fetch(`${process.env.API}/burgers`);
+    const data = await res.json();
+    const paths = data.map(el => {
+      return { params: { id: el.id.toString() } };
+    });
 
-  const data = await res.json();
-  const paths = data.map(el => {
-    return { params: { id: el.id } };
-  });
-
-  return {
-    paths,
-    fallback: false,
-  };
+    return {
+      paths,
+      fallback: false,
+    };
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export async function getStaticProps(ctx) {
-  const { id } = ctx?.params;
-  const res = await fetch(`http://localhost:5000/burgers/${id}`);
-  const data = await res.json();
+  try {
+    const { id } = ctx?.params;
+    const res = await fetch(`${process.env.API}/burgers/${id}`);
+    const data = await res.json();
 
-  if (!data) {
-    return {
-      notFound: true,
-    };
+    if (!data) {
+      return {
+        notFound: true,
+      };
+    }
+
+    return { props: { burger: data } };
+  } catch (err) {
+    console.log(err);
+    return { props: { burger: null } };
   }
-
-  return { props: { burger: data } };
 }
 
 export default function DetailsBurger({ burger }) {
