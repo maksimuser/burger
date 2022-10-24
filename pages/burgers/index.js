@@ -4,16 +4,18 @@ import Link from 'next/link';
 import styles from '../../styles/Burgers.module.css';
 
 export async function getStaticProps() {
-  const res = await fetch('http://localhost:5000/burgers');
-  const data = await res.json();
-
-  if (!data) {
-    return {
-      notFound: true,
-    };
+  try {
+    const res = await fetch('http://localhost:5000/burgers');
+    const data = await res.json();
+    if (!data) {
+      return {
+        notFound: true,
+      };
+    }
+    return { props: { burgers: data } };
+  } catch (err) {
+    console.log(err);
   }
-
-  return { props: { burgers: data } };
 }
 
 export default function Burgers({ burgers }) {
