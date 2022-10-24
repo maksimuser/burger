@@ -20,8 +20,8 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps(ctx) {
+  const { id } = ctx?.params;
   try {
-    const { id } = ctx?.params;
     const res = await fetch(`${process.env.API_URL}/burgers/${id}`);
     const data = await res.json();
     if (!data) {
