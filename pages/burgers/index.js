@@ -14,7 +14,7 @@ export async function getStaticProps() {
     }
     return { props: { burgers: data } };
   } catch (err) {
-    console.log(err);
+    return { props: { burgers: null } };
   }
 }
 
