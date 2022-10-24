@@ -3,7 +3,7 @@ import Burger from '../../components/Burger';
 
 export async function getStaticPaths() {
   try {
-    const res = await fetch(`${process.env.API}/burgers`);
+    const res = await fetch('http://localhost:5000/burgers');
     const data = await res.json();
     const paths = data.map(el => {
       return { params: { id: el.id.toString() } };
@@ -21,7 +21,7 @@ export async function getStaticPaths() {
 export async function getStaticProps(ctx) {
   try {
     const { id } = ctx?.params;
-    const res = await fetch(`${process.env.API}/burgers/${id}`);
+    const res = await fetch(`http://localhost:5000/burgers/${id}`);
     const data = await res.json();
 
     if (!data) {
