@@ -5,7 +5,7 @@ import styles from '../../styles/Burgers.module.css';
 
 export async function getStaticProps() {
   try {
-    const res = await fetch(`${process.env.API}/burgers`);
+    const res = await fetch(`${process.env.API_URL}/burgers`);
     const data = await res.json();
     if (!data) {
       return {
